@@ -1,0 +1,33 @@
+<additional>
+  <vType id="Car" speedDev="0.1" speedFactor="1.2" sigma="0"/>
+  <route id="Northbound" edges="Northbound"/>
+
+  <calibrator id="calibtest_edge" edge="Northbound" pos="0">
+    <flow id="0" begin="0" end="3600" route="Northbound" vehsPerHour="6" speed="27.5806" type="Car" departPos="base" departSpeed="random"/>
+    <flow id="1" begin="3600" end="7200" route="Northbound" vehsPerHour="114" speed="27.1806" type="Car" departPos="base" departSpeed="random"/>    
+    <flow id="2" begin="7200" end="10800" route="Northbound" vehsPerHour="63" speed="27.1528" type="Car" departPos="base" departSpeed="random"/>
+    <flow id="3" begin="10800" end="14400" route="Northbound" vehsPerHour="41" speed="27.2528" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="4" begin="14400" end="18000" route="Northbound" vehsPerHour="61" speed="27.6556" type="Car" departPos="base" departSpeed="random"/>  
+    <flow id="5" begin="18000" end="21600" route="Northbound" vehsPerHour="76" speed="27.1528" type="Car" departPos="base" departSpeed="random"/>  
+    <flow id="6" begin="21600" end="25200" route="Northbound" vehsPerHour="106" speed="25.7194" type="Car" departPos="base" departSpeed="random"/>
+    <flow id="7" begin="25200" end="28800" route="Northbound" vehsPerHour="187" speed="24.7583" type="Car" departPos="base" departSpeed="random"/>  
+    <flow id="8" begin="28800" end="32400" route="Northbound" vehsPerHour="206" speed="26.125" type="Car" departPos="base" departSpeed="random"/>  
+    <flow id="9" begin="32400" end="36000" route="Northbound" vehsPerHour="309" speed="25.1444" type="Car" departPos="base" departSpeed="random"/>  
+    <flow id="10" begin="36000" end="39600" route="Northbound" vehsPerHour="272" speed="25.3027" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="11" begin="39600" end="43200" route="Northbound" vehsPerHour="270" speed="25.1833" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="12" begin="43200" end="46800" route="Northbound" vehsPerHour="269" speed="25.5278" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="13" begin="46800" end="50400" route="Northbound" vehsPerHour="247" speed="24.9389" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="14" begin="50400" end="54000" route="Northbound" vehsPerHour="313" speed="24.5444" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="15" begin="54000" end="57600" route="Northbound" vehsPerHour="359" speed="24.6139" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="16" begin="57600" end="61200" route="Northbound" vehsPerHour="678" speed="24.825" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="17" begin="61200" end="64800" route="Northbound" vehsPerHour="575" speed="23.3139" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="18" begin="64800" end="68400" route="Northbound" vehsPerHour="588" speed="21.2722" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="19" begin="68400" end="72000" route="Northbound" vehsPerHour="612" speed="22.5194" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="20" begin="72000" end="75600" route="Northbound" vehsPerHour="518" speed="21.4861" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="21" begin="75600" end="79200" route="Northbound" vehsPerHour="524" speed="22.5694" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="22" begin="79200" end="82800" route="Northbound" vehsPerHour="407" speed="22.75" type="Car" departPos="base" departSpeed="random"/> 
+    <flow id="23" begin="82800" end="86400" route="Northbound" vehsPerHour="185" speed="23.7444" type="Car" departPos="base" departSpeed="random"/>
+
+  </calibrator>
+
+</additional>

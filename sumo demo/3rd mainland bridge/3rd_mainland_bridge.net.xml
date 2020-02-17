@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 02/15/20 18:20:01 by Eclipse SUMO netedit Version 1.3.1
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="C:\Users\victo\OneDrive\Final%20year%20project%20-%20fyp%20-%20dissertation\simulation\sumo%20demo\3rd%20mainland%20bridge\3rd_mainland_bridge.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\victo\OneDrive\Final%20year%20project%20-%20fyp%20-%20dissertation\simulation\sumo%20demo\3rd%20mainland%20bridge\3rd_mainland_bridge.net.xml"/>
+    </output>
+
+    <processing>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <opposites.guess.fix-lengths value="true"/>
+        <lefthand value="false"/>
+    </processing>
+
+    <junctions>
+        <no-internal-links value="true"/>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.5"/>
+        <rectangular-lane-cut value="false"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="false"/>
+    </pedestrian>
+
+</configuration>
+-->
+
+<net version="1.3" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="-4800.00,-2300.00,-1253.00,-699.90" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>
+
+    <edge id="Northbound" from="gneJ42" to="gneJ43" priority="-1">
+        <lane id="Northbound_0" index="0" speed="19.44" length="3547.00" shape="-4800.00,-2311.20 -1253.00,-2311.20"/>
+        <lane id="Northbound_1" index="1" speed="19.44" length="3547.00" shape="-4800.00,-2308.00 -1253.00,-2308.00"/>
+        <lane id="Northbound_2" index="2" speed="19.44" length="3547.00" shape="-4800.00,-2304.80 -1253.00,-2304.80"/>
+        <lane id="Northbound_3" index="3" speed="19.44" length="3547.00" shape="-4800.00,-2301.60 -1253.00,-2301.60"/>
+    </edge>
+    <edge id="Southbound" from="gneJ43" to="gneJ42" priority="-1">
+        <lane id="Southbound_0" index="0" speed="19.44" length="3547.00" shape="-1253.00,-2288.80 -4800.00,-2288.80"/>
+        <lane id="Southbound_1" index="1" speed="19.44" length="3547.00" shape="-1253.00,-2292.00 -4800.00,-2292.00"/>
+        <lane id="Southbound_2" index="2" speed="19.44" length="3547.00" shape="-1253.00,-2295.20 -4800.00,-2295.20"/>
+        <lane id="Southbound_3" index="3" speed="19.44" length="3547.00" shape="-1253.00,-2298.40 -4800.00,-2298.40"/>
+    </edge>
+    <edge id="gneE4" from="gneJ10" to="gneJ11" priority="-1" shape="-4600.00,-700.00 -4599.90,-699.90">
+        <lane id="gneE4_0" index="0" speed="13.89" length="0.28" shape="-4598.87,-701.13 -4598.77,-701.03"/>
+    </edge>
+
+    <junction id="gneJ10" type="dead_end" x="-4600.00" y="-700.00" incLanes="" intLanes="" shape="-4600.00,-700.00 -4597.74,-702.26"/>
+    <junction id="gneJ11" type="dead_end" x="-4600.00" y="-700.00" incLanes="gneE4_0" intLanes="" shape="-4597.74,-702.26 -4600.00,-700.00"/>
+    <junction id="gneJ42" type="dead_end" x="-4800.00" y="-2300.00" incLanes="Southbound_0 Southbound_1 Southbound_2 Southbound_3" intLanes="" shape="-4800.00,-2300.00 -4800.00,-2287.20 -4800.00,-2300.00"/>
+    <junction id="gneJ43" type="dead_end" x="-1253.00" y="-2300.00" incLanes="Northbound_0 Northbound_1 Northbound_2 Northbound_3" intLanes="" shape="-1253.00,-2300.00 -1253.00,-2312.80 -1253.00,-2300.00"/>
+
+</net>

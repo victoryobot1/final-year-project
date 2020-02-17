@@ -1,0 +1,11 @@
+<configuration>
+    <input>
+        <net-file value="3rd_mainland_bridge.net.xml"/>
+        <additional-files value="3rd_mainland_bridge.add.xml"/>
+    </input>
+    <time>
+        <begin value="0"/>
+        <end value="86401"/>
+    </time>
+    
+</configuration>
