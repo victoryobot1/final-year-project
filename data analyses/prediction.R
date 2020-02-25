@@ -40,7 +40,7 @@ names(traffic_csv) =
 traffic_csv = traffic_csv[5:60]
 #Scaling
 #scl <- function(x){
-traffic_csv[,1:50] <- scale(traffic_csv[,1:50])
+#traffic_csv[,1:50] <- scale(traffic_csv[,1:50])
 #  (x - min(x))/(max(x)-min(x))
 #}
 #traffic_csv[,1:50] <- data.frame(lapply(traffic_csv[,1:50],scl))
@@ -65,20 +65,20 @@ k<-1000
 proportion <- 0.95
 
 #reduction in sample size for testing
-traffic_csv_test = traffic_csv#[c(1:100),]
+traffic_csv_test = traffic_csv[c(1:1000),]
 
 #holder for comparison results cross validation
 compare_lists <- NULL
 
 #Loop to run nn k-times
-for(i in 1:k){
+#for(i in 1:k){
   index <- sample(1:nrow(traffic_csv_test),
                   round(proportion*nrow(traffic_csv_test)))
   train_cv <- traffic_csv_test[index,]
   test_cv <- traffic_csv_test[-index,]
-  nn_cv <- neuralnet(f, data =train_cv, hidden=c(3,3), 
-                     linear.output = FALSE, threshold=0.001, stepmax = 1e+05)
-  #plot(nn_cv)
+  nn_cv <- neuralnet(f, data =train_cv, rep = 1, 
+                     linear.output = FALSE, threshold=0.001, stepmax = 1e+5)
+  plot(nn_cv)
   
   #Compute Predictions
   predict_testNN <- predict(nn_cv, test_cv[, 1:50])
@@ -95,7 +95,7 @@ for(i in 1:k){
   
   compare_lists[[i]] <- mean(prediction_list == original_results)
   i<-i+1
-}
+#}
 
 accuracy <- mean(compare_lists)
 print(accuracy)
