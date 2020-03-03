@@ -8,15 +8,19 @@ library(caret)
 
 
 #Read in dataset
-traffic_raw <- read.csv("3rdMainland Bridge_NB - prediction dataset - copy.csv", header = TRUE, sep = ",")[,c(2,3,4,5)]
-traffic_csv <- traffic_raw#[c(1:100),]
+traffic_raw <- read.csv("joint dataset.csv", header = TRUE, sep = ",")#[,c(2,3,4,5)]
+traffic_csv <- traffic_raw[,c(1,3,7,9,11,13,15,17,18,25,26,28)]
+traffic_csv <- na.omit(traffic_csv)
 
-traffic_csv$Day.of.Week <- as.factor(traffic_csv$Day.of.Week)
+traffic_csv$ï..Description <- as.factor(traffic_csv$ï..Description)
+traffic_csv$Month <- as.factor(traffic_csv$Month)
 traffic_csv$Hour <- as.factor(traffic_csv$Hour)
+traffic_csv$DayofWeek <- as.factor(traffic_csv$DayofWeek)
+traffic_csv$TimeofDay <- as.factor(traffic_csv$TimeofDay)
+traffic_csv$Temperature <- as.factor(traffic_csv$Temperature)
 traffic_csv$Weather <- as.factor(traffic_csv$Weather)
-traffic_csv$Level.of.Service <- as.factor(traffic_csv$Level.of.Service)
 
-table(traffic_csv$Level.of.Service)
+table(traffic_csv$LevelofService)
  
 set.seed(1234)
 traffic_csv <- traffic_csv[sample(nrow(traffic_csv)),]
@@ -29,16 +33,16 @@ traffic_csv <- traffic_csv[sample(nrow(traffic_csv)),]
 split <- floor(nrow(traffic_csv)*0.75)
 traffic_csvTrain <- traffic_csv[0:split,]
 traffic_csvTest <- traffic_csv[(split+1):nrow(traffic_csv),]
-table(traffic_csvTrain$Level.of.Service)
+table(traffic_csvTrain$LevelofService)
 
 #create model
-losmodel <- multinom(Level.of.Service~., data = traffic_csvTrain,
+losmodel <- multinom(LevelofService~., data = traffic_csvTrain,
                     maxit = 500, trace=T)
 print(losmodel)
 
-topModels <- varImp(losmodel)
-topModels$Variables <- row.names(topModels)
-topModels <- topModels[order(-topModels$Overall),]
+#topModels <- varImp(losmodel)
+#topModels$Variables <- row.names(topModels)
+#topModels <- topModels[order(-topModels$Overall),]
 
 
 #k-fold cross validation
@@ -60,7 +64,7 @@ for(i in 1:k){
   original_results <- NULL
   for(j in 1:nrows){
     prediction_list[[j]]<-which.max(predict_testNN[j,])
-    original_results[[j]]<-traffic_csvTest[j,4]
+    original_results[[j]]<-traffic_csvTest[j,12]
     j <- j+1
   }
   
