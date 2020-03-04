@@ -74,3 +74,7 @@ compare_lists <- mean(prediction_list == original_results)
 
 accuracy <- mean(compare_lists)
 print(accuracy)
+
+
+#Saving the model for use in Shiny app
+save(losmodel, file = "los.rda")
