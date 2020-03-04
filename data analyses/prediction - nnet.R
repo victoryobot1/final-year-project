@@ -38,39 +38,34 @@ table(traffic_csvTrain$LevelofService)
 #create model
 losmodel <- multinom(LevelofService~., data = traffic_csvTrain,
                     maxit = 500, trace=T)
-print(losmodel)
+#print(losmodel)
 
 #topModels <- varImp(losmodel)
 #topModels$Variables <- row.names(topModels)
 #topModels <- topModels[order(-topModels$Overall),]
 
 
-#k-fold cross validation
-k<-10
 
 #holder for comparison results cross validation
 compare_lists <- NULL
 
-#Loop to run nn k-times
-for(i in 1:k){
 
-  #Compute Predictions
-  predict_testNN <- predict(losmodel, type="probs", newdata=traffic_csvTest)
-  head(predict_testNN)
-    
-  nrows = nrow(predict_testNN)
+#Compute Predictions
+predict_testNN <- predict(losmodel, type="probs", newdata=traffic_csvTest)
+head(predict_testNN)
   
-  prediction_list <- NULL
-  original_results <- NULL
-  for(j in 1:nrows){
-    prediction_list[[j]]<-which.max(predict_testNN[j,])
-    original_results[[j]]<-traffic_csvTest[j,12]
-    j <- j+1
-  }
-  
-  compare_lists[[i]] <- mean(prediction_list == original_results)
-  i<-i+1
+nrows = nrow(predict_testNN)
+
+prediction_list <- NULL
+original_results <- NULL
+for(j in 1:nrows){
+  prediction_list[[j]]<-which.max(predict_testNN[j,])
+  original_results[[j]]<-traffic_csvTest[j,12]
+  j <- j+1
 }
+
+compare_lists <- mean(prediction_list == original_results)
+
 
 accuracy <- mean(compare_lists)
 print(accuracy)
