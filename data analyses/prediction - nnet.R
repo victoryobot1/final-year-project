@@ -77,4 +77,4 @@ print(accuracy)
 
 
 #Saving the model for use in Shiny app
-save(losmodel, file = "los.rda")
+save(losmodel, file = "losmodel.rda")
