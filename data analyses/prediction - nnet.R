@@ -8,7 +8,7 @@ library(TestDataImputation)
 
 
 #Read in dataset
-traffic_raw <- read.csv("joint dataset.csv", header = TRUE, sep = ",")#[,c(2,3,4,5)]
+traffic_raw <- read.csv("joint dataset.csv", header = TRUE, sep = ",")
 traffic_csv <- traffic_raw[,c(1,3,7,9,11,13,15,17,18,25,26,28)]
 
 #Applying listwise deletion. (IMPUTATION)

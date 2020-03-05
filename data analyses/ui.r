@@ -1,54 +1,145 @@
 library(shiny)
 library(shinydashboard)
-
-#ui = fluidPage(
-#  titlePanel(title = "FYP"),
-#  sidebarLayout(position = "right",
-#                sidebarPanel(h3("sidebar panel")),
-#                mainPanel(h4("main panel text")))
-#)
+library(DT)
 
 
 ui = shinyUI(fluidPage(
   dashboardPage(
     dashboardHeader(title = "Level of Service Prediction"),
+    
     dashboardSidebar(
-      
-      sliderInput("bins","Number of Breaks",1,100,50),
-      selectInput("ï..Description", "Direction of Traffic", list("Northbound", "Southbound"), 
-                  selected = NULL, multiple = FALSE,
-                  selectize = TRUE, width = NULL, size = NULL),
-      sliderInput("LengthofDetectionkm","Length of Detection (km)",3.0,4.0,3.5),
-      sliderInput("Month","Month",1,12,1),
-      selectInput("DayofWeek", "Day of Week", list("Sunday", "Monday", "Tuesday", "Wednesday",
-                                                   "Thursday", "Friday", "Saturday"), 
-                  selected = NULL, multiple = FALSE,
-                  selectize = TRUE, width = NULL, size = NULL),
-      sliderInput("Hour","Hour",0,23,0),
-      #Calculate TimeofDay with hour value
-      sliderInput("DetectedDevices","Number of Vehicles",0,1500,50),
-      sliderInput("Speedkmh","Average Speed of Vehicles",10.0,120.0,10.0),
-      #Calculate Travel time with speed and distance values.
-      sliderInput("Temperature","Temperature",20,40,30),
-      selectInput("Weather", "Weather Condition", list("clear sky", "few clouds",
-                                                       "scattered clouds", "broken clouds", 
-                                                       "overcast clouds", "light intensity drizzle", 
-                                                       "drizzle", "light rain", "moderate rain",
-                                                       "heavy intensity rain", "light thunderstorm",
-                                                       "thunderstorm", "thunderstorm with light rain",
-                                                       "thunderstorm with rain", "thunderstorm with heavy rain",
-                                                       "mist", "haze", "fog", "smoke"), 
-                  selected = NULL, multiple = FALSE,
-                  selectize = TRUE, width = NULL, size = NULL)
-      
-      #actionButton("submit", "submit")
-    ),
-    dashboardBody(
-      fluidRow(
-        box(plotOutput("histogram")),
-        box(tableOutput("prediction"))
-
+      sidebarMenu(
+        menuItem("Project Overview", tabName = "overview", icon = icon("book", lib = "font-awesome")),
+        menuItem("Test The Model", tabName = "testModel", icon = icon("vial", lib = "font-awesome")),
+        menuItem("Make A Specific Prediction", tabName = "makePrediction", icon = icon("vial", lib = "font-awesome")),
+        menuItem("Raw Data", tabName = "rawData", icon = icon("database", lib = "font-awesome"))
       )
+    ),
+    
+    dashboardBody(
+      tabItems(
+      tabItem(tabName = "overview",
+              h1("Project Overview"),
+              fluidRow(box(
+                plotOutput("histogram")
+              ))),
+      tabItem(tabName = "testModel",
+              h1("Test Model"),
+              sliderInput("ratio", "Training set ratio", 0.10, 0.95, 0.75),
+              h4("The higher the ratio, the longer it takes to train..."),
+              actionButton("submit", "Submit"),
+              
+              fluidRow(box(
+                textOutput("accuracy")
+              ),
+                plotOutput("plot")
+              )
+      ),
+      tabItem(tabName = "makePrediction",
+              fluidRow(
+                box(
+                  selectInput(
+                    "ï..Description",
+                    "Direction of Traffic",
+                    list("Northbound", "Southbound"),
+                    selected = NULL,
+                    multiple = FALSE,
+                    selectize = TRUE,
+                    width = NULL,
+                    size = NULL
+                  ),
+                  sliderInput("LengthofDetectionkm", "Length of Detection (km)", 3.0, 4.0, 3.5),
+                  selectInput(
+                    "Month",
+                    "Month",
+                    list(
+                      "June",
+                      "July",
+                      "August",
+                      "September",
+                      "October",
+                      "November",
+                      "December",
+                      "January"
+                    ),
+                    selected = NULL,
+                    multiple = FALSE,
+                    selectize = TRUE,
+                    width = NULL,
+                    size = NULL
+                  ),
+                  selectInput(
+                    "DayofWeek",
+                    "Day of Week",
+                    list(
+                      "Sunday",
+                      "Monday",
+                      "Tuesday",
+                      "Wednesday",
+                      "Thursday",
+                      "Friday",
+                      "Saturday"
+                    ),
+                    selected = NULL,
+                    multiple = FALSE,
+                    selectize = TRUE,
+                    width = NULL,
+                    size = NULL
+                  ),
+                  sliderInput("Hour", "Hour", 0, 23, 0),
+                  #Calculate TimeofDay with hour value
+                  sliderInput("DetectedDevices", "Number of Vehicles", 0, 1500, 50),
+                  sliderInput("Speedkmh", "Average Speed of Vehicles", 10.0, 120.0, 10.0),
+                  #Calculate Travel time with speed and distance values.
+                  sliderInput("Temperature", "Temperature", 20, 40, 30),
+                  selectInput(
+                    "Weather",
+                    "Weather Condition",
+                    list(
+                      "clear sky",
+                      "few clouds",
+                      "scattered clouds",
+                      "broken clouds",
+                      "overcast clouds",
+                      "light intensity drizzle",
+                      "drizzle",
+                      "light rain",
+                      "moderate rain",
+                      "heavy intensity rain",
+                      "light thunderstorm",
+                      "thunderstorm",
+                      "thunderstorm with light rain",
+                      "thunderstorm with rain",
+                      "thunderstorm with heavy rain",
+                      
+                      "mist",
+                      "haze",
+                      "fog",
+                      "smoke"
+                    ),
+                    selected = NULL,
+                    multiple = FALSE,
+                    selectize = TRUE,
+                    width =
+                      NULL,
+                    size = NULL
+                  )
+                  
+                  #actionButton("submit", "submit")
+                ),
+                box(
+                  h3("The level of service is:"),
+                  h3(textOutput("prediction")))
+              )),
+      tabItem(tabName = "rawData",
+              h1("The Raw Traffic Data"),
+              fluidRow(
+                column(
+                  DT::dataTableOutput("trafficData"), width = 6)
+                ))
+      
+      )
+      
     )
   )
 )
