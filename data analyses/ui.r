@@ -5,7 +5,7 @@ library(DT)
 
 ui = shinyUI(fluidPage(
   dashboardPage(
-    dashboardHeader(title = "Level of Service Prediction"),
+    dashboardHeader(title = "LOS Prediction"),
     
     dashboardSidebar(
       sidebarMenu(
@@ -24,13 +24,17 @@ ui = shinyUI(fluidPage(
                 plotOutput("histogram")
               ))),
       tabItem(tabName = "testModel",
-              h1("Test Model"),
+              h1("Test The Model"),
               sliderInput("ratio", "Training set ratio", 0.10, 0.95, 0.75),
               h4("The higher the ratio, the longer it takes to train..."),
               actionButton("submit", "Submit"),
               
               fluidRow(box(
-                textOutput("accuracy")
+                h3("Overall Accuracy: ", h4(textOutput("accuracy")))
+              ),box(
+                h3("Precision: ", h4(tableOutput("precision"))),
+                h3("Recall: ", h4(tableOutput("recall"))),
+                h3("Specificity: ", h4(tableOutput("specificity")))
               ),
                 plotOutput("plot")
               )
@@ -123,16 +127,16 @@ ui = shinyUI(fluidPage(
                     width =
                       NULL,
                     size = NULL
-                  )
+                  ),
                   
-                  #actionButton("submit", "submit")
+                  actionButton("submit2", "submit")
                 ),
                 box(
                   h3("The level of service is:"),
                   h3(textOutput("prediction")))
               )),
       tabItem(tabName = "rawData",
-              h1("The Raw Traffic Data"),
+              h1("Raw Traffic Data of 3rd Mainland Bridge from June '19 to Jan '20"),
               fluidRow(
                 column(
                   DT::dataTableOutput("trafficData"), width = 6)
