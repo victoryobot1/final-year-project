@@ -43,6 +43,9 @@ table(traffic_csvTrain$LevelofService)
 #create model
 losmodel <- multinom(LevelofService~., data = traffic_csvTrain,
                     maxit = 500, trace=T)
+#Saving the model for use in Shiny app
+save(losmodel, file = "losmodel.rda")
+
 
 #Finding the most important variables
 mostImportantVariables <- varImp(losmodel)
@@ -69,12 +72,40 @@ for(j in 1:nrows){
   j <- j+1
 }
 
-compare_lists <- mean(prediction_list == original_results)
+
+#####------------------Evaluation------------######
+#classification accuracy
+overall_accuracy <- mean(prediction_list == original_results)
+print(overall_accuracy)
+
+#confusion matrix
+conf_matrix <- table(original_results,prediction_list)
+colnames(conf_matrix) <- c("A","B","C","D","E","F")
+rownames(conf_matrix) <- c("A","B","C","D","E","F")
+conf_matrix
+
+#precision for each Level of Service
+precision <- data.frame(matrix(ncol=6,nrow=1))
+colnames(precision) <- c("A","B","C","D","E","F")
+for(i in 1:nrow(conf_matrix)){
+  precision[1,i]=conf_matrix[i,i]/sum(conf_matrix[,i])
+}
+precision
+
+#recall for each Level of Service
+recall <- data.frame(matrix(ncol=6,nrow=1))
+colnames(recall) <- c("A","B","C","D","E","F")
+for(i in 1:nrow(conf_matrix)){
+  recall[1,i]=conf_matrix[i,i]/sum(conf_matrix[i,])
+}
+recall
+
+#specificity for each Level of Service
+specificity <- data.frame(matrix(ncol=6,nrow=1))
+colnames(specificity) <- c("A","B","C","D","E","F")
+for(i in 1:nrow(conf_matrix)){
+  specificity[1,i]=sum(conf_matrix[-i,-i])/(sum(conf_matrix[,i])-conf_matrix[i,i]+sum(conf_matrix[-i,-i]))
+}
+specificity
 
 
-accuracy <- mean(compare_lists)
-print(accuracy)
-
-
-#Saving the model for use in Shiny app
-save(losmodel, file = "losmodel.rda")
