@@ -186,6 +186,12 @@ server <- function(input, output) {
       j <- j+1
     }
     
+    #confusion matrix
+    conf_matrix <- table(original_results,prediction_list)
+    colnames(conf_matrix) <- c("A","B","C","D","E","F")
+    rownames(conf_matrix) <- c("A","B","C","D","E","F")
+    conf_matrix
+    
     output$accuracy <- renderText({
       compare_lists <- mean(prediction_list == original_results)
       print(prediction_list)
