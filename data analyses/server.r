@@ -1,17 +1,18 @@
 # Define server logic to summarize and view selected dataset ----
+
 library(shiny)
 library(shinydashboard)
 library(nnet)
 library(caret)
 library(DT)
-library(TestDataImputation)
+library(TestDataImputation) 
 library(ggplot2)
 
 
 
 server <- function(input, output) {
   load('losmodel.rda')
-  traffic_raw <- read.csv("joint dataset.csv", header = TRUE, sep = ",")
+  traffic_raw <- read.csv("Joint dataset.csv", header = TRUE, sep = ",")
   traffic_csv <- traffic_raw[,c(1,3,7,9,11,13,15,17,18,25,26,28)]
   
   observeEvent(input$submit2,{
