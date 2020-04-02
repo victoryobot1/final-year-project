@@ -21,7 +21,15 @@ ui = shinyUI(fluidPage(
       tabItem(tabName = "overview",
               h1("Project Overview"),
               fluidRow(box(
-                plotOutput("histogram")
+                h3("Among the 36 states that make up Nigeria, Lagos is the smallest in terms of land mass. Despite that, it I the second most populous state in Nigeria with a population of 12.5 million as of 2016. 
+                Due to this very dense population, Lagos is plagued by an absurd level of traffic gridlock. 
+                   A Lagosian that works 40 hour a week spends an average of 30 hours commuting to and from work each week."),
+                h3("The need for an improvement to the traffic management system is evident. 
+                   For the Lagos State government to make better informed decisions regarding improvements, this project proposes the use of artificial intelligence that uses numerous traffic characteristics to predict congestion levels. 
+                   Using this will enables the planners to have consistency in the reasoning behind decisions made as the predictions will be accurate, systematic and can also provide the most important factors leading to the prediction."),
+                h3("This project therefore set out to build a model that predicts the occurrence and level of traffic congestion using various traffic variables."),
+                h3("Furthermore, this web app was then created to allow users interact with the model and the original dataset."),                
+                
               ))),
       tabItem(tabName = "testModel",
               h1("Test The Model"),
