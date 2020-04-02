@@ -1,6 +1,7 @@
 install.packages('caret')
 install.packages('e1071')
 install.packages('TestDataImputation')
+install.packages('ggplot2')
 
 library(nnet)
 library(caret)

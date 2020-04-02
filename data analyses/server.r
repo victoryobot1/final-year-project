@@ -1,13 +1,15 @@
 # Define server logic to summarize and view selected dataset ----
-
 library(shiny)
 library(shinydashboard)
 library(nnet)
-library(caret)
+require(caret)
+#install.packages('devtools')
+#install.packages('caret', repos='http://cran.rstudio.com/')
+#devtools::install_github('topepo/caret/pkg/caret')
+#devtools::install_github('cran/TestDataImputation')
 library(DT)
-library(TestDataImputation) 
+require(TestDataImputation) 
 library(ggplot2)
-
 
 
 server <- function(input, output) {
@@ -141,6 +143,7 @@ server <- function(input, output) {
     traffic_csv
   })
   observeEvent(input$submit, {
+    #Imputation - listwise
     traffic_csv_imput <- Listwise(traffic_csv, Mvalue="")
     
     #Setting cattegorical variables in the dataset as factor.
@@ -226,7 +229,6 @@ server <- function(input, output) {
     })
     
     output$plot <- renderPlot({
-
       plot(prediction_list,type = "o",col = "red", xlab = "Case", ylab = "LOS (A=1...F=6)", 
            main = "Actual (red) vs Predicted (blue)")
       
