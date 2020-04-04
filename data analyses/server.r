@@ -9,6 +9,7 @@ server <- function(input, output) {
   load('losmodel.rda')
   traffic_raw <- read.csv("Joint dataset.csv", header = TRUE, sep = ",")
   traffic_csv <- traffic_raw[,c(1,3,7,9,11,13,15,17,18,25,26,28)]
+  traffic_csv_cleaned <- read.csv("Joint dataset - Cleaned.csv", header = TRUE, sep = ",")[,c(1,3,7,9,11,13,15,17,18,25,26,28)]
   
   observeEvent(input$submit2,{
     output$prediction <- renderText({
@@ -140,41 +141,41 @@ server <- function(input, output) {
   })
 
   output$trafficData = DT::renderDataTable({
-    traffic_csv
+    traffic_raw
   })
   observeEvent(input$submit, {
     #listwise deletion
     print('button clicked')
-    traffic_csv_imput <- na.omit(traffic_csv)
-    print('done listwise')
-    #Setting cattegorical variables in the dataset as factor.
-    traffic_csv_imput$ï..Description <- as.factor(traffic_csv_imput$ï..Description)
-    traffic_csv_imput$Month <- as.factor(traffic_csv_imput$Month)
-    traffic_csv_imput$Hour <- as.factor(traffic_csv_imput$Hour)
-    traffic_csv_imput$DayofWeek <- as.factor(traffic_csv_imput$DayofWeek)
-    traffic_csv_imput$TimeofDay <- as.factor(traffic_csv_imput$TimeofDay)
-    traffic_csv_imput$Weather <- as.factor(traffic_csv_imput$Weather)
-    print('done factor shit')
-    table(traffic_csv_imput$LevelofService)
+    #Setting categorical variables in the dataset as factor.
+    traffic_csv_cleaned$Direction <- as.factor(traffic_csv_cleaned$Direction)
+    print('hi')
+    traffic_csv_cleaned$Month <- as.factor(traffic_csv_cleaned$Month)
+    print('hi again')
+    traffic_csv_cleaned$Hour <- as.factor(traffic_csv_cleaned$Hour)
+    traffic_csv_cleaned$DayofWeek <- as.factor(traffic_csv_cleaned$DayofWeek)
+    traffic_csv_cleaned$TimeofDay <- as.factor(traffic_csv_cleaned$TimeofDay)
+    traffic_csv_cleaned$Weather <- as.factor(traffic_csv_cleaned$Weather)
+    print('done factors')
+    table(traffic_csv_cleaned$LevelofService)
     
     #Set seed for reproducability in results  
     set.seed(123)
     
     #Shuffle the data
-    traffic_csv_imput <- traffic_csv_imput[sample(nrow(traffic_csv_imput)),]
+    traffic_csv_cleaned <- traffic_csv_cleaned[sample(nrow(traffic_csv_cleaned)),]
     print('done shuffle')
     #####---------------Cross validation-------------------#######
     
     #setting percentage of train/test split 
-    split <- floor(nrow(traffic_csv_imput)*input$ratio)
-    traffic_csv_imputTrain <- traffic_csv_imput[0:split,]
-    traffic_csv_imputTest <- traffic_csv_imput[(split+1):nrow(traffic_csv_imput),]
-    table(traffic_csv_imputTrain$LevelofService)
+    split <- floor(nrow(traffic_csv_cleaned)*input$ratio)
+    traffic_csv_cleanedTrain <- traffic_csv_cleaned[0:split,]
+    traffic_csv_cleanedTest <- traffic_csv_cleaned[(split+1):nrow(traffic_csv_cleaned),]
+    table(traffic_csv_cleanedTrain$LevelofService)
     
     print('done split')
     
     #create model
-    losmodel_edit <- multinom(LevelofService~., data = traffic_csv_imputTrain,
+    losmodel_edit <- multinom(LevelofService~., data = traffic_csv_cleanedTrain,
                               maxit = 100, trace=T)
     print('done model')
     
@@ -182,7 +183,7 @@ server <- function(input, output) {
     compare_lists <- NULL
     
     #Compute Predictions
-    predict_testNN <- predict(losmodel_edit, type="probs", newdata=traffic_csv_imputTest)
+    predict_testNN <- predict(losmodel_edit, type="probs", newdata=traffic_csv_cleanedTest)
     head(predict_testNN)
     
     nrows = nrow(predict_testNN)
@@ -191,7 +192,7 @@ server <- function(input, output) {
     original_results <- NULL
     for(j in 1:nrows){
       prediction_list[[j]]<-which.max(predict_testNN[j,])
-      original_results[[j]]<-traffic_csv_imputTest[j,12]
+      original_results[[j]]<-traffic_csv_cleanedTest[j,12]
       j <- j+1
     }
     

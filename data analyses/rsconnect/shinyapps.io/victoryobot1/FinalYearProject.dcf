@@ -5,9 +5,9 @@ account: victoryobot1
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2042054
-bundleId: 2967346
+bundleId: 2967442
 url: https://victoryobot1.shinyapps.io/FinalYearProject/
-when: 1585975868.35466
+when: 1585979036.58065
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: 3rdMainland Bridge_NB - imputed.csv|3rdMainland Bridge_NB - unimputed - Copy.csv|3rdMainland Bridge_NB - unimputed.csv|3rdMainland Bridge_SB - imputed.csv|3rdMainland Bridge_SB - unimputed - Copy.csv|3rdMainland Bridge_SB - unimputed.csv|Joint - distributions.spv|Joint - Little's MCAR test.spv|Joint - relationships.spv|Joint exploratory analysis.sav|losmodel.rds|NB - distrubutions.spv|NB - exploratory analysis.sav|NB - Little's MCAR test.spv|NB - relationships.spv|prediction - nnet.R|prediction.R|SB - distrubutions.spv|SB - exploratory analysis.sav|SB - Little's MCAR test.spv|weather, LoS, TimeofDay, DayofWeek keys.xlsx
