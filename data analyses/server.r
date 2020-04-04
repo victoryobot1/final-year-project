@@ -2,14 +2,7 @@
 library(shiny)
 library(shinydashboard)
 library(nnet)
-require(caret)
-#install.packages('devtools')
-#install.packages('caret', repos='http://cran.rstudio.com/')
-#devtools::install_github('topepo/caret/pkg/caret')
-#devtools::install_github('cran/TestDataImputation')
 library(DT)
-require(TestDataImputation) 
-library(ggplot2)
 
 
 server <- function(input, output) {
@@ -99,6 +92,13 @@ server <- function(input, output) {
         input_data$Month <- 12
       }
       
+      #tansforming Description variable
+      if (input_data$ï..Description == "Northbound (Traffic toward Berger, Ikeja (Mainland))"){
+        input_data$ï..Description <- "Northbound"
+      }else{
+        input_data$ï..Description <- "Southbound"
+      }
+      
       print(input_data)
       
       input_data$ï..Description <- as.factor(input_data$ï..Description)
@@ -143,9 +143,10 @@ server <- function(input, output) {
     traffic_csv
   })
   observeEvent(input$submit, {
-    #Imputation - listwise
-    traffic_csv_imput <- Listwise(traffic_csv, Mvalue="")
-    
+    #listwise deletion
+    print('button clicked')
+    traffic_csv_imput <- na.omit(traffic_csv)
+    print('done listwise')
     #Setting cattegorical variables in the dataset as factor.
     traffic_csv_imput$ï..Description <- as.factor(traffic_csv_imput$ï..Description)
     traffic_csv_imput$Month <- as.factor(traffic_csv_imput$Month)
@@ -153,15 +154,15 @@ server <- function(input, output) {
     traffic_csv_imput$DayofWeek <- as.factor(traffic_csv_imput$DayofWeek)
     traffic_csv_imput$TimeofDay <- as.factor(traffic_csv_imput$TimeofDay)
     traffic_csv_imput$Weather <- as.factor(traffic_csv_imput$Weather)
-    
+    print('done factor shit')
     table(traffic_csv_imput$LevelofService)
     
     #Set seed for reproducability in results  
-    set.seed(1234)
+    set.seed(123)
     
     #Shuffle the data
     traffic_csv_imput <- traffic_csv_imput[sample(nrow(traffic_csv_imput)),]
-    
+    print('done shuffle')
     #####---------------Cross validation-------------------#######
     
     #setting percentage of train/test split 
@@ -170,14 +171,18 @@ server <- function(input, output) {
     traffic_csv_imputTest <- traffic_csv_imput[(split+1):nrow(traffic_csv_imput),]
     table(traffic_csv_imputTrain$LevelofService)
     
+    print('done split')
+    
     #create model
     losmodel_edit <- multinom(LevelofService~., data = traffic_csv_imputTrain,
-                              maxit = 500, trace=T)
+                              maxit = 100, trace=T)
+    print('done model')
+    
     #holder for comparison results cross validation
     compare_lists <- NULL
     
     #Compute Predictions
-    predict_testNN <- predict(losmodel, type="probs", newdata=traffic_csv_imputTest)
+    predict_testNN <- predict(losmodel_edit, type="probs", newdata=traffic_csv_imputTest)
     head(predict_testNN)
     
     nrows = nrow(predict_testNN)

@@ -1,21 +1,14 @@
-install.packages('caret')
-install.packages('e1071')
-install.packages('TestDataImputation')
-install.packages('ggplot2')
-
 library(nnet)
 library(caret)
-library(TestDataImputation)
-
 
 #Read in dataset
 traffic_raw <- read.csv("Joint dataset.csv", header = TRUE, sep = ",")
 traffic_csv <- traffic_raw[,c(1,3,7,9,11,13,15,17,18,25,26,28)]
 
-#Applying listwise deletion. (IMPUTATION)
-traffic_csv <- Listwise(traffic_csv, Mvalue="")
+#Applying listwise deletion.
+traffic_csv = na.omit(traffic_csv)
 
-#Setting cattegorical variables in the dataset as factor.
+#Setting categorical variables in the dataset as factor.
 traffic_csv$ï..Description <- as.factor(traffic_csv$ï..Description)
 traffic_csv$Month <- as.factor(traffic_csv$Month)
 traffic_csv$Hour <- as.factor(traffic_csv$Hour)
@@ -26,7 +19,7 @@ traffic_csv$Weather <- as.factor(traffic_csv$Weather)
 table(traffic_csv$LevelofService)
 
 #Set seed for reproducability in results  
-set.seed(1234)
+set.seed(123)
 
 #Shuffle the data
 traffic_csv <- traffic_csv[sample(nrow(traffic_csv)),]
@@ -43,7 +36,7 @@ table(traffic_csvTrain$LevelofService)
 
 #create model
 losmodel <- multinom(LevelofService~., data = traffic_csvTrain,
-                    maxit = 500, trace=T)
+                    maxit = 100, trace=T)
 #Saving the model for use in Shiny app
 save(losmodel, file = "losmodel.rda")
 

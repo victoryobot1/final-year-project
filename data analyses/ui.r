@@ -53,7 +53,7 @@ ui = shinyUI(fluidPage(
                   selectInput(
                     "ï..Description",
                     "Direction of Traffic",
-                    list("Northbound", "Southbound"),
+                    list("Northbound (Traffic toward Berger, Ikeja (Mainland))", "Southbound (Traffic toward Lagos Island)"),
                     selected = NULL,
                     multiple = FALSE,
                     selectize = TRUE,
