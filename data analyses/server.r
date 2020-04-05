@@ -8,7 +8,7 @@ library(DT)
 server <- function(input, output) {
   load('losmodel.rda')
   traffic_raw <- read.csv("Joint dataset.csv", header = TRUE, sep = ",")
-  traffic_csv <- traffic_raw[,c(1,3,7,9,11,13,15,17,18,25,26,28)]
+  traffic_csv <- traffic_raw[,c(1,3,7,9,11,15,17,18,25,26,28)]
   traffic_csv_cleaned <- read.csv("Joint dataset - Cleaned.csv", header = TRUE, sep = ",")[,c(1,3,7,9,11,13,15,17,18,25,26,28)]
   
   observeEvent(input$submit2,{
@@ -20,29 +20,6 @@ server <- function(input, output) {
                                        "Speedkmh"=input$Speedkmh, "ï..Description"=input$ï..Description,
                                        "TotalTravelTimeseconds"=3600*input$LengthofDetectionkm/input$Speedkmh))
       print(input_data)
-      
-      #Using Hour  value to derive TimeofDay variable
-      if (input_data$Hour %in% c(0,1,2,3)){
-        input_data$TimeofDay <- "Late Night"
-      }
-      if (input_data$Hour %in% c(4,5,6,7,8)){
-        input_data$TimeofDay <- "Early Morning"
-      }
-      if (input_data$Hour %in% c(9,10,11)){
-        input_data$TimeofDay <- "Late Morning"
-      }
-      if (input_data$Hour %in% c(12,13,14)){
-        input_data$TimeofDay <- "Early Afternoon"
-      }
-      if (input_data$Hour %in% c(15,16,17)){
-        input_data$TimeofDay <- "Late Afternoon"
-      }
-      if (input_data$Hour %in% c(18,19,20)){
-        input_data$TimeofDay <- "Evening"
-      }
-      if (input_data$Hour %in% c(21,22,23)){
-        input_data$TimeofDay <- "Late Evening"
-      }
       
       #Transforming DayofWeek value to numeric type for the model
       if (input_data$DayofWeek == "Sunday"){
@@ -106,7 +83,6 @@ server <- function(input, output) {
       input_data$Month <- as.factor(input_data$Month)
       input_data$Hour <- as.factor(input_data$Hour)
       input_data$DayofWeek <- as.factor(input_data$DayofWeek)
-      input_data$TimeofDay <- as.factor(input_data$TimeofDay)
       input_data$Weather <- as.factor(input_data$Weather)
       input_data$LengthofDetectionkm <- as.numeric(input_data$LengthofDetectionkm)
       input_data$DetectedDevices <- as.numeric(input_data$DetectedDevices)
@@ -148,12 +124,9 @@ server <- function(input, output) {
     print('button clicked')
     #Setting categorical variables in the dataset as factor.
     traffic_csv_cleaned$Direction <- as.factor(traffic_csv_cleaned$Direction)
-    print('hi')
     traffic_csv_cleaned$Month <- as.factor(traffic_csv_cleaned$Month)
-    print('hi again')
     traffic_csv_cleaned$Hour <- as.factor(traffic_csv_cleaned$Hour)
     traffic_csv_cleaned$DayofWeek <- as.factor(traffic_csv_cleaned$DayofWeek)
-    traffic_csv_cleaned$TimeofDay <- as.factor(traffic_csv_cleaned$TimeofDay)
     traffic_csv_cleaned$Weather <- as.factor(traffic_csv_cleaned$Weather)
     print('done factors')
     table(traffic_csv_cleaned$LevelofService)

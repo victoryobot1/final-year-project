@@ -3,7 +3,7 @@ library(caret)
 
 #Read in dataset
 traffic_raw <- read.csv("Joint dataset.csv", header = TRUE, sep = ",")
-traffic_csv <- traffic_raw[,c(1,3,7,9,11,13,15,17,18,25,26,28)]
+traffic_csv <- traffic_raw[,c(1,3,7,9,11,15,17,18,25,26,28)]
 
 #Applying listwise deletion.
 traffic_csv = na.omit(traffic_csv)
@@ -13,7 +13,6 @@ traffic_csv$ï..Description <- as.factor(traffic_csv$ï..Description)
 traffic_csv$Month <- as.factor(traffic_csv$Month)
 traffic_csv$Hour <- as.factor(traffic_csv$Hour)
 traffic_csv$DayofWeek <- as.factor(traffic_csv$DayofWeek)
-traffic_csv$TimeofDay <- as.factor(traffic_csv$TimeofDay)
 traffic_csv$Weather <- as.factor(traffic_csv$Weather)
 
 table(traffic_csv$LevelofService)
@@ -62,7 +61,7 @@ prediction_list <- NULL
 original_results <- NULL
 for(j in 1:nrows){
   prediction_list[[j]]<-which.max(predict_testNN[j,])
-  original_results[[j]]<-traffic_csvTest[j,12]
+  original_results[[j]]<-traffic_csvTest[j,11]
   j <- j+1
 }
 

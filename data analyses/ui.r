@@ -99,7 +99,6 @@ ui = shinyUI(fluidPage(
                     size = NULL
                   ),
                   sliderInput("Hour", "Hour", 0, 23, 0),
-                  #Calculate TimeofDay with hour value
                   sliderInput("DetectedDevices", "Number of Vehicles", 0, 1500, 50),
                   sliderInput("Speedkmh", "Average Speed of Vehicles", 10.0, 120.0, 10.0),
                   #Calculate Travel time with speed and distance values.
